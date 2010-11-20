@@ -1,0 +1,24 @@
+<extension xmlns="http://jcp.org/jsr/198/extension-manifest" id="sqldeveloper.extension.plunit.PlunitRunner"
+    version="1" esdk-version="1.0">
+    <name>PL/Unit</name>
+    <owner>Jacob Rogers</owner>
+    <dependencies>
+        <import>oracle.sqldeveloper</import>
+        <import>oracle.javacore</import>
+    </dependencies>
+    <hooks>
+        <jdeveloper-hook xmlns="http://xmlns.oracle.com/jdeveloper/1013/extension">
+            <addins>
+                <addin>plunit.sqldeveloper.PlunitRunner</addin>
+            </addins>
+        </jdeveloper-hook>
+        <feature-hook>
+            <description>Browse tablespaces and their associate objects</description>
+            <optional>false</optional>
+        </feature-hook>
+        
+        <sqldev-navigator-hook xmlns="http://xmlns.oracle.com/sqldeveloper/sqldev-navigator">
+      		<descriptor>/plunit/sqldeveloper/extension/plunitNavigatorExtension.xml</descriptor>
+   		</sqldev-navigator-hook>
+    </hooks>
+</extension>
