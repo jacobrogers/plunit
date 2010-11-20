@@ -1,0 +1,31 @@
+allprojects {
+	apply plugin: 'groovy'
+	group = 'plunit'
+}
+
+subprojects {
+	apply plugin: 'eclipse'
+	apply plugin: 'maven'
+
+	repositories {
+		mavenRepo urls: 'http://localhost:8086/artifactory/repo'
+	}
+	
+	dependencies {
+		compile 'oracle:ojdbc14:10.2.0.4.0'
+
+		testCompile 'junit:junit:4.8'
+		testCompile 'org.mockito:mockito-all:1.8.5'
+		
+		groovy 'org.codehaus.groovy:groovy-all:1.7.5'
+	}
+	
+	uploadArchives {
+		repositories.mavenDeployer {
+			repository(url: 'http://localhost:8086/artifactory/lib-release-local') {
+				authentication(userName: 'admin', password: 'password')
+			}
+		}
+	}
+
+}
