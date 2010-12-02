@@ -23,6 +23,7 @@ public class PlunitRunner extends AbstractMenuAction implements Addin, Controlle
 	public PlunitRunner() {}
 
 	public void initialize() {
+		popup.show("initializing...");
 		dockable.hide();
 		try {
 			URL url = new URL("file:action.xml");
@@ -44,7 +45,9 @@ public class PlunitRunner extends AbstractMenuAction implements Addin, Controlle
 			      testSuite.addListener(dockable);
 			      dockable.setPlunitTestSuite(testSuite);
 			      try {
+			    	  popup.show("running test: " + testSuite.getName() + " " + testSuite.getTests().size() + " tests");
 			    	  testSuite.run();
+			    	  popup.show("finished test: " + testSuite.getName());
 			      } catch(Exception e) {
 			    	  popup.show(e);
 			      }

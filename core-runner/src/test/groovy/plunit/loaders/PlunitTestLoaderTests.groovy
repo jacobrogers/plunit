@@ -21,7 +21,7 @@ class PlunitTestLoaderTests {
 	
 	@InjectMocks PlunitTestLoader plunitTestLoader = new PlunitTestLoader()
 	@Mock LoadSuiteStatement loadSuiteStatement
-	@Mock SuiteOfSuitesLoaderTests suiteOfSuitesLoader
+	@Mock SuiteOfSuitesLoader suiteOfSuitesLoader
 	@Mock SuiteLoader suiteLoader
 	@Mock Connection connection
 	@Mock PlunitStatement plunitStatement
@@ -39,12 +39,17 @@ class PlunitTestLoaderTests {
 	
 	@Test
 	void loadSingleSuiteIfReturningTestNameDoesNotContainCommas() {
-		def suiteName = 'singleSuite', returnedTests = ['test-one~this is test one', 'test-two~this is test two']
+		def expected = []
+		def suiteName = 'singleSuite'
+		List<String> returnedTests = ['test-one~this is test one', 'test-two~this is test two']
+		when(suiteLoader.load(returnedTests, plunitStatement, connection)).thenReturn(expected)
 		when(loadSuiteStatement.loadTests(suiteName, connection)).thenReturn(returnedTests)
 		
-		plunitTestLoader.load(suiteName, plunitStatement, connection)
+		def actual = plunitTestLoader.load(suiteName, plunitStatement, connection)
 		
 		verify(suiteLoader).load(returnedTests, plunitStatement, connection)
 		verify(suiteOfSuitesLoader, never()).load(any(), any(), any())
+		
+		assert expected == actual
 	} 
 }

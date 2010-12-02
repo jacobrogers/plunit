@@ -39,6 +39,7 @@ public class PlunitTestSuite implements Testable, TestSuiteListener {
 	}
 	
 	public void addListener(TestSuiteListener observer) {
+		popup.show("adding listener");
 		this.observers.add(observer);
 	}
 
@@ -117,6 +118,7 @@ public class PlunitTestSuite implements Testable, TestSuiteListener {
 	}
 
 	private void loadPlunitTestList() throws SQLException {
+		popup.show("loading tests");
 		List<String> plunitTests = loadSuiteStatement.loadTests(getName());
 		for(String testName : plunitTests) {
 			if (isListOfSuites(testName)) {
@@ -151,11 +153,13 @@ public class PlunitTestSuite implements Testable, TestSuiteListener {
 	}
 
 	private void runTests() throws InvalidPlunitTestException, SQLException {
+		popup.show("suite is running tests");
 		state = TestState.RUNNING;
 		int testCount = 0;
 		for (final Testable test : testList) {
 			test.run();
 			++testCount;
+			popup.show("notifying...");
 			if(!(test instanceof PlunitTestSuite))  
 				for (TestSuiteListener listener : observers) 
 					listener.notify(this, testCount);
@@ -204,6 +208,7 @@ public class PlunitTestSuite implements Testable, TestSuiteListener {
 		for(TestSuiteListener observer : observers) { 
 			observer.notify(this, testNumber);
 		}
+		popup.show("testNumber: " + testNumber);
 	}
 
 	public void notifyFinish() {}
@@ -214,6 +219,7 @@ public class PlunitTestSuite implements Testable, TestSuiteListener {
 	}
 
 	public void setNotifier(PopUp notifier) {
+		notifier.show("setting popup on suite");
 		this.popup = notifier;
 	}
 
