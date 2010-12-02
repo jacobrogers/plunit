@@ -1,6 +1,5 @@
 package plunit.loaders;
 
-import org.junit.Ignore 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
@@ -17,6 +16,7 @@ import plunit.db.LoadSuiteStatement;
 import plunit.db.PlunitStatement 
 import plunit.loaders.SuiteLoader;
 import plunit.PlunitTest;
+import plunit.Testable 
 
 @RunWith(MockitoJUnitRunner.class)
 class SuiteLoaderTests {
@@ -29,24 +29,24 @@ class SuiteLoaderTests {
 	void loadASingleSuiteOfPlunitTest() {
 		def testNames =  ['test_one~test one description', 'test_two~test two description']
 		
-		List<PlunitTest> actualTests = testLoader.load(testNames, plunitStatement, connection)
+		List<Testable> actualTests = testLoader.load(testNames, plunitStatement, connection)
 		
 		assert 2 == actualTests.size()
 		assert [plunitTest('test_one', 'test one description'), plunitTest('test_two', 'test two description')] == actualTests
 	}
-	@Test @Ignore
-	public void loadTestForAListOfSuites() {
+	@Test
+	public void returnEmptyListIfTestDoesNotContainSeparator() {
 		def testNames =  ['suite_one, suite_two']
 		
-		List<PlunitTest> actualTests = testLoader.load(testNames, plunitStatement, connection)
+		List<Testable> actualTests = testLoader.load(testNames, plunitStatement, connection)
 		
-		assert 1 == actualTests.size()
+		assert 0 == actualTests.size()
 	}
 	@Test
 	void testWithNullDescription() {
 		def testNames =  ['name~null']
 
-		List<PlunitTest> actualTests = testLoader.load(testNames, plunitStatement, connection)
+		List<Testable> actualTests = testLoader.load(testNames, plunitStatement, connection)
 		
 		assert 1 == actualTests.size()
 		assert 'name' == actualTests[0].getName()

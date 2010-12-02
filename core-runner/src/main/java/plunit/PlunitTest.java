@@ -9,6 +9,8 @@ public class PlunitTest implements Testable {
 	private PlunitStatement plunitStatement;
 	private TestState state;
 	
+	public PlunitTest() {}
+	
 	public PlunitTest(String name, String description, PlunitStatement plunitStatement) {
 		this.name = name;
 		this.description = description;

@@ -28,7 +28,11 @@ public class PlunitTestSuite implements Testable, TestSuiteListener {
 		testSuite.loadPlunitTestList();
 		return testSuite;
 	}
-
+	
+	public PlunitTestSuite(String packageName, List<Testable> tests) {
+		this.testList = tests;
+		this.packageName = packageName;
+	}
 	private PlunitTestSuite(String packageName, Connection dbConnection) throws SQLException {
 		super();
 		this.packageName = packageName;

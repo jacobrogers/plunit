@@ -4,8 +4,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import plunit.PlunitTest;
 import plunit.PlunitTestSuite;
+import plunit.Testable;
 import plunit.db.LoadSuiteStatement;
 import plunit.db.PlunitStatement;
 
@@ -20,14 +20,16 @@ public class PlunitTestLoader {
 		this.loadSuiteStatement = loadSuiteStatement;
 	}
 	
-	public List<PlunitTest> load(String testName, PlunitStatement plunitStatement, Connection connection) throws SQLException {
-		List<String> testList = loadSuiteStatement.loadTests(testName, connection);
+	public PlunitTestSuite load(String suiteName, PlunitStatement plunitStatement, Connection connection) throws SQLException {
+		List<String> testList = loadSuiteStatement.loadTests(suiteName, connection);
 		
+		List<Testable> tests = null;
 		if(isSuiteOfSuites(testList)) {
-			return suiteOfSuitesLoader.load(testList.get(0).toUpperCase(), plunitStatement, connection);
+			tests = suiteOfSuitesLoader.load(testList.get(0).toUpperCase(), plunitStatement, connection);
 		} else {
-			return suiteLoader.load(testList, plunitStatement, connection);
+			tests = suiteLoader.load(testList, plunitStatement, connection);
 		}
+		return new PlunitTestSuite(suiteName, tests);
 	}
 	
 	private boolean isSuiteOfSuites(List<String> testList) {

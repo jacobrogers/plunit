@@ -1,6 +1,7 @@
 package plunit.loaders;
 
 import plunit.PlunitTest 
+import plunit.PlunitTestSuite 
 import plunit.db.PlunitStatement 
 import java.sql.Connection 
 import org.junit.Test 
@@ -34,12 +35,13 @@ class PlunitTestLoaderTests {
 		when(loadSuiteStatement.loadTests(suiteName, connection)).thenReturn(['suite-one,suite-two'])
 		when(suiteOfSuitesLoader.load(suiteName.toUpperCase(), plunitStatement, connection)).thenReturn(expected)
 	
-		List<PlunitTest> actual = plunitTestLoader.load(suiteName, plunitStatement, connection)
+		PlunitTestSuite actual = plunitTestLoader.load(suiteName, plunitStatement, connection)
 		
 		verify(suiteOfSuitesLoader).load('suite-one,suite-two'.toUpperCase(), plunitStatement, connection)
 		verify(suiteLoader, never()).load(any(), any(), any())
 		
-		assert expected == actual
+		assert suiteName == actual.name
+		assert expected == actual.tests
 	}
 	
 	@Test
@@ -50,11 +52,12 @@ class PlunitTestLoaderTests {
 		when(suiteLoader.load(returnedTests, plunitStatement, connection)).thenReturn(expected)
 		when(loadSuiteStatement.loadTests(suiteName, connection)).thenReturn(returnedTests)
 		
-		def actual = plunitTestLoader.load(suiteName, plunitStatement, connection)
+		PlunitTestSuite actual = plunitTestLoader.load(suiteName, plunitStatement, connection)
 		
 		verify(suiteLoader).load(returnedTests, plunitStatement, connection)
 		verify(suiteOfSuitesLoader, never()).load(any(), any(), any())
 		
-		assert expected == actual
+		assert suiteName == actual.name
+		assert expected == actual.tests
 	} 
 }
