@@ -24,12 +24,12 @@ public class PlunitTestLoader {
 		List<String> testList = loadSuiteStatement.loadTests(testName, connection);
 		
 		if(isSuiteOfSuites(testList)) {
-			suiteOfSuitesLoader.load(testList.get(0).toUpperCase(), plunitStatement, connection);
+			return suiteOfSuitesLoader.load(testList.get(0).toUpperCase(), plunitStatement, connection);
 		} else {
 			return suiteLoader.load(testList, plunitStatement, connection);
 		}
-		return null;
 	}
+	
 	private boolean isSuiteOfSuites(List<String> testList) {
 		return testList.size() == 1 && testList.get(0).contains(",");
 	}

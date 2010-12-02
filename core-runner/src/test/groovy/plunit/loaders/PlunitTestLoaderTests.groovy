@@ -1,5 +1,6 @@
 package plunit.loaders;
 
+import plunit.PlunitTest 
 import plunit.db.PlunitStatement 
 import java.sql.Connection 
 import org.junit.Test 
@@ -29,12 +30,16 @@ class PlunitTestLoaderTests {
 	@Test
 	void loadSuiteOfSuitesWhenReturningTestNameHasCommas() {
 		String suiteName = 'suiteOfSuites'
+		List<PlunitTest> expected = []
 		when(loadSuiteStatement.loadTests(suiteName, connection)).thenReturn(['suite-one,suite-two'])
+		when(suiteOfSuitesLoader.load(suiteName.toUpperCase(), plunitStatement, connection)).thenReturn(expected)
 	
-		plunitTestLoader.load(suiteName, plunitStatement, connection)
+		List<PlunitTest> actual = plunitTestLoader.load(suiteName, plunitStatement, connection)
 		
 		verify(suiteOfSuitesLoader).load('suite-one,suite-two'.toUpperCase(), plunitStatement, connection)
 		verify(suiteLoader, never()).load(any(), any(), any())
+		
+		assert expected == actual
 	}
 	
 	@Test
