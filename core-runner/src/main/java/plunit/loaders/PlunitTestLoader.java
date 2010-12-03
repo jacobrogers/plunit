@@ -29,7 +29,7 @@ public class PlunitTestLoader {
 		} else {
 			tests = suiteLoader.load(testList, plunitStatement, connection);
 		}
-		return new PlunitTestSuite(suiteName, tests);
+		return new PlunitTestSuite(suiteName, tests, connection);
 	}
 	
 	private boolean isSuiteOfSuites(List<String> testList) {

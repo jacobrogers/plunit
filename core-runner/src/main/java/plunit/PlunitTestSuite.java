@@ -7,6 +7,7 @@ import java.util.List;
 
 import plunit.db.LoadSuiteStatement;
 import plunit.db.PlunitStatement;
+import plunit.loaders.PlunitTestLoader;
 import plunit.observers.DefaultPopUp;
 import plunit.observers.PopUp;
 import plunit.observers.TestSuiteListener;
@@ -29,9 +30,10 @@ public class PlunitTestSuite implements Testable, TestSuiteListener {
 		return testSuite;
 	}
 	
-	public PlunitTestSuite(String packageName, List<Testable> tests) {
+	public PlunitTestSuite(String packageName, List<Testable> tests, Connection dbConnection) {
 		this.testList = tests;
 		this.packageName = packageName;
+		this.dbConnection = dbConnection;
 	}
 	private PlunitTestSuite(String packageName, Connection dbConnection) throws SQLException {
 		super();
@@ -123,29 +125,21 @@ public class PlunitTestSuite implements Testable, TestSuiteListener {
 
 	private void loadPlunitTestList() throws SQLException {
 		popup.show("loading tests");
-		List<String> plunitTests = loadSuiteStatement.loadTests(getName());
-		for(String testName : plunitTests) {
-			if (isListOfSuites(testName)) {
-				for (String name : testName.split(",")) {
-					PlunitTestSuite plunitTest = build(name.toUpperCase(), dbConnection);
-					plunitTest.setNotifier(popup);
-					plunitTest.addListener(this);
-					testList.add(plunitTest);
-				}
-			} else {
-				String[] splitTestName = testName.split("~");
-				String name = splitTestName[0];
-				String description = "null".equals(splitTestName[1]) ? null : splitTestName[1];
-				PlunitTest plunitTest = new PlunitTest(name, description, plunitStatement);
-				testList.add(plunitTest);
-			}
+		PlunitTestSuite testSuite = new PlunitTestLoader(loadSuiteStatement).load(getName(), plunitStatement, dbConnection);
+		for(PlunitTestSuite suite : testSuite.getSuites()) {
+			suite.addListener(this);
+			suite.setNotifier(popup);
 		}
+		testList.addAll(testSuite.getTests());
 	}
-
-	private boolean isListOfSuites(String testName) {
-		return testName.contains(",");
+	public List<PlunitTestSuite> getSuites() {
+		List<PlunitTestSuite> suites = new ArrayList<PlunitTestSuite>();
+		for(Testable test : testList) {
+			if(test instanceof PlunitTestSuite) suites.add((PlunitTestSuite) test);
+		}
+		return suites;
 	}
-
+	
 	public void reset() throws SQLException {
 		testNumber = 0;
 		this.state = TestState.NOT_RAN;

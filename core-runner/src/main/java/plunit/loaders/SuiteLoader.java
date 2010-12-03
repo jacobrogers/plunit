@@ -14,13 +14,11 @@ public class SuiteLoader {
 		List<Testable> plunitTests = new ArrayList<Testable>();
 		for(String name : testNames) {
 			String[] splitTestName = name.split("~");
-			if(splitTestName.length == 2) {
-				String splitName = splitTestName[0];
-				String description = "null".equals(splitTestName[1]) ? null : splitTestName[1];
-				PlunitTest test = new PlunitTest(splitName, description, plunitStatement);
+			String splitName = splitTestName[0];
+			String description = "null".equals(splitTestName[1]) ? null : splitTestName[1];
+			PlunitTest test = new PlunitTest(splitName, description, plunitStatement);
 			
-				plunitTests.add(test);
-			}
+			plunitTests.add(test);
 		}
 		return plunitTests;
 	}

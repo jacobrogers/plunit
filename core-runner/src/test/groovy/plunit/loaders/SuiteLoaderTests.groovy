@@ -35,12 +35,14 @@ class SuiteLoaderTests {
 		assert [plunitTest('test_one', 'test one description'), plunitTest('test_two', 'test two description')] == actualTests
 	}
 	@Test
-	public void returnEmptyListIfTestDoesNotContainSeparator() {
-		def testNames =  ['suite_one, suite_two']
+	public void noDescriptionForTest() {
+		def testNames =  ['suite_one~null']
 		
 		List<Testable> actualTests = testLoader.load(testNames, plunitStatement, connection)
 		
-		assert 0 == actualTests.size()
+		assert 1 == actualTests.size()
+		assert 'suite_one' == actualTests[0].name
+		assert null == actualTests[0].description
 	}
 	@Test
 	void testWithNullDescription() {

@@ -19,9 +19,8 @@ public class SuiteOfSuitesLoader {
 		for(String suite : suiteName.split(",")) {
 			List<String> suiteTests = loadSuiteStatement.loadTests(suite, connection);
 			List<Testable> tests = suiteLoader.load(suiteTests, plunitStatement, connection);
-			suites.add(new PlunitTestSuite(suite, tests));
+			suites.add(new PlunitTestSuite(suite, tests, connection));
 		}
-		
 		return suites;
 	}
 }
