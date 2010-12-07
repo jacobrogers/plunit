@@ -21,7 +21,6 @@ import plunit.Testable
 @RunWith(MockitoJUnitRunner.class)
 class SuiteLoaderTests {
 	@InjectMocks SuiteLoader testLoader = new SuiteLoader()
-	@Mock LoadSuiteStatement loadTestStatement
 	@Mock Connection connection
 	@Mock PlunitStatement plunitStatement
 	
@@ -34,6 +33,7 @@ class SuiteLoaderTests {
 		assert 2 == actualTests.size()
 		assert [plunitTest('test_one', 'test one description'), plunitTest('test_two', 'test two description')] == actualTests
 	}
+	
 	@Test
 	public void noDescriptionForTest() {
 		def testNames =  ['suite_one~null']

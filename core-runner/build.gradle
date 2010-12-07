@@ -1,4 +1,4 @@
-// apply from: 'https://github.com/breskeby/gradleplugins/raw/master/emmaPlugin/emma.gradle'
+ apply from: 'https://github.com/breskeby/gradleplugins/raw/master/emmaPlugin/emma.gradle'
 
 group = 'plunit'
 version = '1.0'
@@ -17,6 +17,7 @@ task runIntegrationTests(type: Test, dependsOn: jar) {
 }
 
 dependencies {
-//	emma "emma:emma:2.0.5312"
-//	emma "emma:emma_ant:2.0.5312"
+	emma "emma:emma:2.0.5312"
+	emma "emma:emma_ant:2.0.5312"
 }
+
