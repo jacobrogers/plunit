@@ -132,6 +132,7 @@ public class PlunitTestSuite implements Testable, TestSuiteListener {
 		}
 		testList.addAll(testSuite.getTests());
 	}
+	
 	public List<PlunitTestSuite> getSuites() {
 		List<PlunitTestSuite> suites = new ArrayList<PlunitTestSuite>();
 		for(Testable test : testList) {

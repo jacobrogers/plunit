@@ -14,7 +14,7 @@ public class PlunitTestLoader {
 	private SuiteOfSuitesLoader suiteOfSuitesLoader = new SuiteOfSuitesLoader();
 	private SuiteLoader suiteLoader = new SuiteLoader();
 	
-	protected PlunitTestLoader() {}
+	public PlunitTestLoader() {}
 	
 	public PlunitTestLoader(LoadSuiteStatement loadSuiteStatement) {
 		this.loadSuiteStatement = loadSuiteStatement;

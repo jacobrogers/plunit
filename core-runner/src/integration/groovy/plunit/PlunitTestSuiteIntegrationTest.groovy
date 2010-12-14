@@ -20,6 +20,7 @@ class PlunitTestSuiteIntegrationTest {
 		assert testSuite.passingTests.size() == 1
 		assert testSuite.failingTests.size() == 1
 	}
+	
 	@Test
 	public void smokeTest_suiteOfSuites() {
 		String url = 'jdbc:oracle:thin:@desktop:1521:XE'

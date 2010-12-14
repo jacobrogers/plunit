@@ -54,6 +54,7 @@ class SuiteLoaderTests {
 		assert 'name' == actualTests[0].getName()
 		assert null == actualTests[0].getDescription()
 	}
+	
 	private PlunitTest plunitTest(String name, String description) {
 		new PlunitTest(name, description, plunitStatement)
 	}

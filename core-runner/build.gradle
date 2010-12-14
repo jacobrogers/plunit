@@ -1,4 +1,4 @@
- apply from: 'https://github.com/breskeby/gradleplugins/raw/master/emmaPlugin/emma.gradle'
+apply from: 'https://github.com/breskeby/gradleplugins/raw/master/emmaPlugin/emma.gradle'
 
 group = 'plunit'
 version = '1.0'

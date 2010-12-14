@@ -12,7 +12,7 @@ public class PlunitStatement {
 	private CallableStatement runTestCstmt;
 	protected TestResultBuilder testResultBuilder = new TestResultBuilder();
 	
-	protected PlunitStatement() {}
+	public PlunitStatement() {}
 	
 	public PlunitStatement(String suiteName, Connection dbConnection) throws SQLException {
 		runTestCstmt = dbConnection.prepareCall(RUN_TEST_CALLABLE_STATEMENT);
