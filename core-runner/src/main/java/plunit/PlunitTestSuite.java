@@ -30,6 +30,8 @@ public class PlunitTestSuite implements Testable, TestSuiteListener {
 		return testSuite;
 	}
 	
+	public PlunitTestSuite() {}
+	
 	public PlunitTestSuite(String packageName, List<Testable> tests, Connection dbConnection) {
 		this.testList = tests;
 		this.packageName = packageName;

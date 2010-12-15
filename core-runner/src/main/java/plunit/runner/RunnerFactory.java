@@ -5,9 +5,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import oracle.jdbc.OracleTypes;
+import plunit.PlunitTestSuite;
+import plunit.loaders.PlunitTestLoader;
 
 
 public class RunnerFactory {
+	private PlunitTestLoader testLoader = new PlunitTestLoader();
+	
 	public Runner build(String suiteName, Connection connection) throws SQLException {
 		CallableStatement statement = connection.prepareCall("begin plunit_wrapper.run_test(?,?,?,?,?,?); end;");
 		statement.setString(1, suiteName);
@@ -15,7 +19,8 @@ public class RunnerFactory {
 		statement.registerOutParameter(4, OracleTypes.VARCHAR);
 		statement.registerOutParameter(5, OracleTypes.VARCHAR);
 		statement.registerOutParameter(6, OracleTypes.VARCHAR);
-		Runner runner = new Runner(suiteName, connection, statement);
+		PlunitTestSuite testSuite = testLoader.load(suiteName, connection);
+		Runner runner = new Runner(suiteName, connection, statement, testSuite);
 		return runner;
 	}
 }

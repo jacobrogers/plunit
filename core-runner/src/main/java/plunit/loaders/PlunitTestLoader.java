@@ -10,7 +10,7 @@ import plunit.db.LoadSuiteStatement;
 import plunit.db.PlunitStatement;
 
 public class PlunitTestLoader {
-	private LoadSuiteStatement loadSuiteStatement;
+	private LoadSuiteStatement loadSuiteStatement = new LoadSuiteStatement();
 	private SuiteOfSuitesLoader suiteOfSuitesLoader = new SuiteOfSuitesLoader();
 	private SuiteLoader suiteLoader = new SuiteLoader();
 	
@@ -18,6 +18,9 @@ public class PlunitTestLoader {
 	
 	public PlunitTestLoader(LoadSuiteStatement loadSuiteStatement) {
 		this.loadSuiteStatement = loadSuiteStatement;
+	}
+	public PlunitTestSuite load(String suiteName, Connection connection) {
+		return null;
 	}
 	
 	public PlunitTestSuite load(String suiteName, PlunitStatement plunitStatement, Connection connection) throws SQLException {

@@ -4,6 +4,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import plunit.PlunitTestSuite;
 import plunit.db.PlunitStatement;
 import plunit.loaders.PlunitTestLoader;
 
@@ -13,13 +14,15 @@ public class Runner {
 	private String suiteName;
 	private Connection connection;
 	private CallableStatement callableStatement;
+	private PlunitTestSuite testSuite;
 	
 	protected Runner() {}
 	
-	public Runner(String suiteName, Connection connection, CallableStatement callableStatement) {
+	public Runner(String suiteName, Connection connection, CallableStatement callableStatement, PlunitTestSuite testSuite) {
 		this.suiteName = suiteName;
 		this.connection = connection;
 		this.callableStatement = callableStatement;
+		this.testSuite = testSuite;
 	}
 	
 	public void run(String suiteName, Connection connection) throws SQLException {
@@ -34,5 +37,8 @@ public class Runner {
 	}
 	protected CallableStatement getCallableStatement() {
 		return callableStatement;
+	}
+	protected PlunitTestSuite getTests() {
+		return testSuite;
 	}
 }

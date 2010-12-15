@@ -13,12 +13,16 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import plunit.PlunitTestSuite 
+import plunit.Testable 
+import plunit.loaders.PlunitTestLoader 
 
 @RunWith(MockitoJUnitRunner.class)
 class RunnerFactoryTests {
 	@InjectMocks RunnerFactory factory = new RunnerFactory()
 	@Mock Connection connection
 	@Mock CallableStatement callableStatement
+	@Mock PlunitTestLoader testLoader
 	
 	@Test
 	void prepareCallableStatementForRunner() {
@@ -42,5 +46,15 @@ class RunnerFactoryTests {
 		assert 'suite name' == runner.suiteName
 		assert connection == runner.connection
 		assert callableStatement == runner.callableStatement
+	}
+	@Test
+	void loadTestsForSuite() {
+		PlunitTestSuite test = new PlunitTestSuite()
+		when(testLoader.load('suite name',connection)).thenReturn(test)
+		when(connection.prepareCall('begin plunit_wrapper.run_test(?,?,?,?,?,?); end;')).thenReturn(callableStatement)
+		
+		Runner runner = factory.build('suite name', connection)
+		
+		assert test == runner.getTests()
 	}
 }
