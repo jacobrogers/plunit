@@ -1,9 +1,0 @@
-<items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:noNamespaceSchemaLocation="dialogs.xsd">
-     <item type="PLUNIT_TESTS" className="plunit.sqldeveloper.PlunitRunner">
-        <title>Run as PL/Unit Test</title>
- 	 </item>
- 	 <item type="PACKAGE" className="plunit.sqldeveloper.PlunitRunner">
-        <title>Run as PL/Unit Test</title>
- 	 </item>    
-</items>
